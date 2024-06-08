@@ -283,17 +283,21 @@ class Guidance(nn.Module):
 
     @torch.no_grad()
     def denoise_step(self, x, t):
+        # ====== 06.06 swapping attns =======
         '''if t in self.guidance_schedule:
             self.change_mode(train=False)'''
-
+        # ==================================
+        
         register_batch(self, 2)
         latent_model_input = torch.cat([x, x], dim=0)
+        # in denoise step, set batch size 2 and input cat[x, x]
+        # -> recon때 추출한 q, k와 v가 차원이 안 맞음
+        
         text_embed_input = self.guidance_embeds
 
         with torch.autocast(device_type="cuda", dtype=torch.float16):
             # ======= 06.07 swapping ===========
             # total 50 sampling step (t: 981, 961, ..., 21, 1)
-            # 
             t_sampling = (1000 - t + 1) / 20
             
             if self.config.load_swapping_attn and t_sampling == self.config.swapping_step:
@@ -302,10 +306,10 @@ class Guidance(nn.Module):
                 with open(attentions_path, 'rb') as file:
                     attentions = pickle.load(file)
 
-                attentions = dict(list(attentions.items())[:16])
+                # attentions = dict(list(attentions.items())[31:])
                 model = self.unet
                 register_temp_attention_hook(model, attentions)
-                print(f"attention swapped at timestep {t_sampling}")
+                print(f"attention swapped at timestep {t_sampling} with attentions_step{t+19}.pkl")
             else:
                 model = self.unet
 
@@ -313,7 +317,11 @@ class Guidance(nn.Module):
             # ==================================
 
         noise_pred_cond, noise_pred_uncond = noise_pred.chunk(2)
-        noise_pred = noise_pred_uncond + self.config["guidance_scale"] * (noise_pred_cond - noise_pred_uncond)
+        # noise_pred = noise_pred_uncond + self.config["guidance_scale"] * (noise_pred_cond - noise_pred_uncond)
+        # ======= 06.07 swapping =========
+        # cond: target prompt, uncond: negative prompt
+        noise_pred = noise_pred_uncond + 10 * (noise_pred_cond - noise_pred_uncond)
+        # ================================
 
         bsz, channel, frames, width, height = x.shape
         x = x.permute(0, 2, 1, 3, 4).reshape(bsz * frames, channel, width, height)
@@ -344,8 +352,11 @@ class Guidance(nn.Module):
         for i, t in enumerate(tqdm(self.scheduler.timesteps, desc="Sampling")):
             register_time(self, t.item())
 
-            if t in self.guidance_schedule:
-                x = self.guidance_step(x, i, t)
+            # ====== 06.06 swapping attns =======
+            '''if t in self.guidance_schedule:
+                x = self.guidance_step(x, i, t)'''
+            # ==================================
+
             x = self.denoise_step(x, t)
             if self.config["restart_sampling"] and t != self.scheduler.timesteps[-1]:
                 x = self.undo_step(x, self.scheduler.timesteps[i + 1])
@@ -366,7 +377,7 @@ class Guidance(nn.Module):
 # ======= 06.07 swapping =========
 def swapping_attentions(name, attn):
     def hook(module, input, output):
-        return attn
+        return torch.cat([attn, attn], dim=0)
     return hook
 
 def register_temp_attention_hook(model, attentions):
