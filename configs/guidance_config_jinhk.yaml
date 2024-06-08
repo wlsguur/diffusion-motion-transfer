@@ -1,12 +1,17 @@
 device: 'cuda'
 seed: 42
-output_path: "/home/cvlab04/project/jinhyeok/dmt-personal/diffusion-motion-transfer/result"
-data_path: "/home/cvlab04/project/jinhyeok/diffusion-motion-transfer/AIST/frames_crop/AIST_group_1"
-latents_path: "/home/cvlab04/project/jinhyeok/diffusion-motion-transfer/AIST/latents"
-source_prompt: "Amazing quality, masterpiece, three men are dancing in the room"
-target_prompt: "Amazing quality, masterpiece, three gorillas are dancing in the dense jungle"
+output_path: "/home/cvlab04/project/jinhyeok/dmt-personal/diffusion-motion-transfer/result/step-10-layer-all"
+data_path: "/home/cvlab04/project/jinhyeok/dmt-personal/diffusion-motion-transfer/landscape/frames"
+latents_path: "/home/cvlab04/project/jinhyeok/dmt-personal/diffusion-motion-transfer/landscape/latents"
+source_prompt: "Amazing quality, masterpiece, snow-covered mountains and forests are zoomed in"
+target_prompt: "Amazing quality, masterpiece, A yellow school bus pulling into a driveway"
 negative_prompt: "bad quality, distortions, unrealistic, distorted image, watermark, signature"
 guidance_scale: 10
+
+# swapping attentions
+load_swapping_attn: True
+swapping_load_path: "/media/data1/dmt/swapping_attns_zoomin"
+swapping_step: 45
 
 with_lr_decay: True
 optim_lr: 0.01
@@ -22,9 +27,9 @@ features_loss_weight: 0
 global_averaging: True
 features_diff_loss_weight: 1
 
-restart_sampling: True
-random_init: False
-high_freq_replacement_init: True
+restart_sampling: False
+random_init: True
+high_freq_replacement_init: False
 downsample_factor: 4
 
 use_upsampler_features: True
