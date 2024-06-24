@@ -1,10 +1,10 @@
 device: 'cuda'
 seed: null
-output_path: 'results/locomotive_car'
-data_path: 'data/locomotive'
-latents_path: 'data/locomotive/ddim_latents'
-source_prompt: "Amazing quality, masterpiece, A locomotive rides in a forest"
-target_prompt: "Amazing quality, masterpiece, A car driving in a forest"
+output_path: "/home/cvlab04/project/jinhyeok/dmt-personal/diffusion-motion-transfer/result"
+data_path: "/home/cvlab04/project/jinhyeok/diffusion-motion-transfer/AIST/frames_crop/AIST_group_1"
+latents_path: "/home/cvlab04/project/jinhyeok/diffusion-motion-transfer/AIST/latents"
+source_prompt: "Amazing quality, masterpiece, three men are dancing in the room"
+target_prompt: "Amazing quality, masterpiece, three gorillas are dancing in the dense jungle"
 negative_prompt: "bad quality, distortions, unrealistic, distorted image, watermark, signature"
 guidance_scale: 10
 
@@ -14,7 +14,7 @@ scale_range: [0.007 , 0.004]
 optimization_steps: 10
 
 
-max_frames: 24
+max_frames: 12
 n_timesteps: 50
 max_guidance_timestep: 1
 min_guidance_timestep: 0.6
