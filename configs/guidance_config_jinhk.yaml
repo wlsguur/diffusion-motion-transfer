@@ -1,6 +1,6 @@
 device: 'cuda'
 seed: 42
-output_path: "/home/cvlab04/project/jinhyeok/dmt-personal/diffusion-motion-transfer/result/step-10-layer-all"
+output_path: "/home/cvlab04/project/jinhyeok/dmt-personal/diffusion-motion-transfer/result/zoomin-step20-layersall-bus"
 data_path: "/home/cvlab04/project/jinhyeok/dmt-personal/diffusion-motion-transfer/landscape/frames"
 latents_path: "/home/cvlab04/project/jinhyeok/dmt-personal/diffusion-motion-transfer/landscape/latents"
 source_prompt: "Amazing quality, masterpiece, snow-covered mountains and forests are zoomed in"
@@ -11,7 +11,7 @@ guidance_scale: 10
 # swapping attentions
 load_swapping_attn: True
 swapping_load_path: "/media/data1/dmt/swapping_attns_zoomin"
-swapping_step: 45
+swapping_step: 20
 
 with_lr_decay: True
 optim_lr: 0.01
@@ -28,8 +28,8 @@ global_averaging: True
 features_diff_loss_weight: 1
 
 restart_sampling: False
-random_init: True
-high_freq_replacement_init: False
+random_init: False
+high_freq_replacement_init: True
 downsample_factor: 4
 
 use_upsampler_features: True
