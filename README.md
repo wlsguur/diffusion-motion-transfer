@@ -1,13 +1,20 @@
+### This is the diffusion latent analysis project page
+### Computer Vision LAB @ Korea University
+
+original github page is [**here**](https://github.com/diffusion-motion-transfer/diffusion-motion-transfer.git).
+
+below is the original README.md
+
+---
+
 # Space-Time Diffusion Features for Zero-Shot Text-Driven Motion Transfer
 <a href="https://diffusion-motion-transfer.github.io/"><img src="https://img.shields.io/static/v1?label=Project&message=Website&color=blue"></a>
 <a href="https://arxiv.org/abs/"><img src="https://img.shields.io/badge/arXiv-2311.17009-b31b1b.svg"></a>
 
-### This is the diffusion latent analysis project page
-### Computer Vision LAB @ Korea University
-
-We have referenced the paper:
+This is the official implementation of the paper:
 
 [**Space-Time Diffusion Features for Zero-Shot Text-Driven Motion Transfer**](https://diffusion-motion-transfer.github.io/)
+
 <br/>
 
 [Danah Yatim*](https://www.linkedin.com/in/danah-yatim-4b15231b5/),
